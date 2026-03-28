@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+body {
+  @apply text-stone-200 min-h-screen overflow-x-hidden;
+  background-color: #000b1a;
+  background-image: 
+    radial-gradient(circle at 50% -20%, #002b5c 0%, transparent 60%),
+    radial-gradient(circle at 0% 50%, #001a33 0%, transparent 50%),
+    radial-gradient(circle at 100% 50%, #001a33 0%, transparent 50%),
+    linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.02) 45%, transparent 50%),
+    linear-gradient(245deg, transparent 40%, rgba(255,255,255,0.02) 45%, transparent 50%);
+  background-attachment: fixed;
+}
+
+.glass {
+  @apply bg-black/40 backdrop-blur-2xl border border-white/10;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+.card-shadow {
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 0 0 10px rgba(139, 92, 71, 0.2);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
