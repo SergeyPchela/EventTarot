@@ -11,8 +11,21 @@ import ReactMarkdown from 'react-markdown';
 import { TAROT_CARDS, TarotCard } from './cards';
 import { UI_TRANSLATIONS, Language } from './translations';
 
-// Initialize Gemini
-const apiKey = process.env.GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY || "";
+// Initialize Gemini safely
+const getApiKey = () => {
+  try {
+    // Check for process.env (AI Studio environment)
+    if (typeof process !== 'undefined' && process.env && process.env.GEMINI_API_KEY) {
+      return process.env.GEMINI_API_KEY;
+    }
+  } catch (e) {
+    // Ignore process errors
+  }
+  // Check for import.meta.env (Vite/Vercel environment)
+  return import.meta.env.VITE_GEMINI_API_KEY || "";
+};
+
+const apiKey = getApiKey();
 const genAI = new GoogleGenAI({ apiKey });
 
 interface SpreadItem {
@@ -110,6 +123,7 @@ export default function App() {
       const response = await genAI.models.generateContent({ model, contents: prompt });
       setAiAnalysis(response.text || (lang === 'ru' ? "Звезды сегодня туманны..." : "The stars are hazy today..."));
     } catch (error) {
+      console.error("Gemini API Error:", error);
       setAiAnalysis(t.aiError);
     } finally {
       setIsLoadingAi(false);
